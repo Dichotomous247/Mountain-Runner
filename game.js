@@ -28,15 +28,12 @@ function loadGame() {
                 keyState = false
             }
 
-            console.log(keyState)
-
             // left arrow detect
             if(event.keyCode === 37) {
                 controller.left = keyState
             }else if (event.keyCode === 38){
                 controller.up = keyState
             }else if(event.keyCode === 39){
-                console.log("right")
                 controller.right = keyState
             }
         }
