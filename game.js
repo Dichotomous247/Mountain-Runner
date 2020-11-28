@@ -3,7 +3,21 @@ function loadGame() {
 
     let context = canvas.getContext("2d")
 
-        //defining the player
+    let frameCount = 1
+
+    let obstacleCount = frameCount
+
+    let obstacleCoordinates = []
+
+    function nextFrame(){
+        frameCount+=1
+        for(let i=0; i<obstacleCount; i++){
+           let objectCoord=Math.floor(Math.random()*(1165-140+1)+140)
+           obstacleCoordinates.push(objectCoord)
+        }
+    }
+
+    //defining the player
     let player = {
         height: 32,
         width: 32,
@@ -67,9 +81,10 @@ function loadGame() {
             player.x=1220
         }else if(player.x>1220){
             player.x=-20
+            nextFrame();
         }
 
-        // Creates the backdrop for each frame  
+    // Creates the backdrop for each frame  
     context.fillStyle = "#201A23";  
     context.fillRect(0, 0, 1220, 400); // x, y, width, height
     // Creates and fills the cube for each frame  
@@ -77,6 +92,26 @@ function loadGame() {
     context.beginPath();  
     context.rect(player.x, player.y, player.width, player.height);  
     context.fill();
+
+    let triangleHeight = 200*Math.cos(Math.PI/6)
+    context.fillStyle = "fbf5f3"
+    for(let i=0; i<obstacleCoordinates.length; i++){
+
+        let currentLocation = obstacleCoordinates[i]
+        console.log(currentLocation, Math.round(player.x))
+        if(currentLocation===Math.round(player.x)){
+            alert("Hi")
+        }
+
+        context.beginPath();
+        context.moveTo(currentLocation, 385);
+        context.lineTo(currentLocation+20, 385);
+        context.lineTo(currentLocation+10, 510-triangleHeight)
+        context.closePath();
+        context.fill();
+
+    }
+
     // Creates the "ground" for each frame  
     context.strokeStyle = "#2E2532";  
     context.lineWidth = 30;  
