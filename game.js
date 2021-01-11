@@ -107,8 +107,6 @@ function loadGame() {
             window.location.href = 'game_over.html'
         }
 
-        console.log(player.isJumping);
-
         // only care about x collision on ground
         if(
             !player.isJumping &&
