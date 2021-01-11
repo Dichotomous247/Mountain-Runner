@@ -1,3 +1,19 @@
 #gameCanvas{
     background-color: #545f5f;
+    justify-content: center;
+}
+
+#gameOverBackground, #gameBackground{
+    background-color: #201A23;
+    color: white;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.center{
+    text-align: center;
 }

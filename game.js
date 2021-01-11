@@ -34,7 +34,6 @@ function loadGame() {
         right:false,
         up:false,
         listener: function (event){
-            console.log("fxdjnffijg")
             let keyState 
             if(event.type === "keydown"){
                 keyState = true
@@ -62,7 +61,6 @@ function loadGame() {
             player.velocityX-=0.5
         }
         if(controller.right){
-            console.log(player.velocityX)
             player.velocityX+=0.5
         }
 
@@ -87,6 +85,7 @@ function loadGame() {
     // Creates the backdrop for each frame  
     context.fillStyle = "#201A23";  
     context.fillRect(0, 0, 1220, 400); // x, y, width, height
+
     // Creates and fills the cube for each frame  
     context.fillStyle = "#8DAA9D"; // hex for cube color 
     context.beginPath();  
@@ -94,13 +93,27 @@ function loadGame() {
     context.fill();
 
     let triangleHeight = 200*Math.cos(Math.PI/6)
+
     context.fillStyle = "fbf5f3"
     for(let i=0; i<obstacleCoordinates.length; i++){
 
         let currentLocation = obstacleCoordinates[i]
-        console.log(currentLocation, Math.round(player.x))
-        if(currentLocation===Math.round(player.x)){
-            alert("Hi")
+
+        if (
+            player.isJumping &&
+            player.y > 310 &&
+            player.x + 32 >= currentLocation + 10 && player.x <= currentLocation + 10
+        ) {
+            window.location.href = 'game_over.html'
+        }
+
+        // only care about x collision on ground
+        if(
+            !player.isJumping &&
+            ((player.x + 28 >= currentLocation && player.x < currentLocation) ||
+            (player.x + 28 > currentLocation + 20 && player.x <= currentLocation + 20))
+        ) {
+            window.location.href = "game_over.html";
         }
 
         context.beginPath();
@@ -109,7 +122,6 @@ function loadGame() {
         context.lineTo(currentLocation+10, 510-triangleHeight)
         context.closePath();
         context.fill();
-
     }
 
     // Creates the "ground" for each frame  
@@ -128,3 +140,6 @@ function loadGame() {
     window.requestAnimationFrame(loop)
 
 }
+ function playAgain(){
+     window.location.href = "index.html"
+ }
