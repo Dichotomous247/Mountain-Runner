@@ -99,24 +99,6 @@ function loadGame() {
 
         let currentLocation = obstacleCoordinates[i]
 
-        // if(player.y > triangleHeight){
-        //     alert("e")
-        // }
-
-        // console.log('triangle height: ', triangleHeight);
-        // console.log('player y: ', player.y)
-        console.log(player.x)
-        console.log(currentLocation)
-
-        // if(currentLocation > Math.round(player.x)-16 && currentLocation < Math.round(player.x)+27 && player.isJumping===false){
-        //     location.reload();
-        //     alert("Game Over :(")
-        // } else if(currentLocation > Math.round(player.x)-16 && currentLocation < Math.round(player.x)+27 && player.isJumping===true && player.y > 173) {
-        //     location.reload();
-        //     alert('jhfhfhfhfhf')
-        // }
-
-        //print all variables and see why logic is failing
         if (
             player.isJumping &&
             player.y > 310 &&
@@ -163,4 +145,3 @@ function loadGame() {
  function playAgain(){
      window.location.href = "index.html"
  }
- 
