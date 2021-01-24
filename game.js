@@ -21,8 +21,6 @@ function loadGame() {
 
         while(true){
             let objectCoord=Math.floor(Math.random()*(1165-140+1)+140)
-            //[10,50] 
-            //70
     
            let isValidPosition = true
     
@@ -34,7 +32,6 @@ function loadGame() {
                 }
             }
             if(isValidPosition){
-                console.log("yay")
                 obstacleCoordinates.push(objectCoord)
                 document.getElementById("score").innerHTML = `Level: ${obstacleCoordinates.length}`
                 break
@@ -168,5 +165,3 @@ function loadGame() {
  function playAgain(){
      window.location.href = "index.html"
  }
-
-
