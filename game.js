@@ -9,11 +9,33 @@ function loadGame() {
 
     let obstacleCoordinates = []
 
+    document.getElementById("score").innerHTML = 'Level: 0'
+
+
     function nextFrame(){
+        
+        if(obstacleCoordinates.length===10){
+            window.location.href = "game_won.html";
+        }
         frameCount+=1
-        for(let i=0; i<obstacleCount; i++){
-           let objectCoord=Math.floor(Math.random()*(1165-140+1)+140)
-           obstacleCoordinates.push(objectCoord)
+
+        while(true){
+            let objectCoord=Math.floor(Math.random()*(1165-140+1)+140)
+    
+           let isValidPosition = true
+    
+            for(let i=0; i<obstacleCoordinates.length; i++){
+                if((objectCoord<obstacleCoordinates[i]&&objectCoord-obstacleCoordinates[i]>-200)||
+                    (objectCoord>obstacleCoordinates[i]&&objectCoord-obstacleCoordinates[i]<200)
+                ){
+                    isValidPosition=false
+                }
+            }
+            if(isValidPosition){
+                obstacleCoordinates.push(objectCoord)
+                document.getElementById("score").innerHTML = `Level: ${obstacleCoordinates.length}`
+                break
+            }
         }
     }
 
@@ -75,27 +97,27 @@ function loadGame() {
             player.y=338
             player.velocityY=0
         }
-        if(player.x<-20){
-            player.x=1220
+        if(player.x<0){
+            player.x=0
         }else if(player.x>1220){
             player.x=-20
             nextFrame();
         }
 
-    // Creates the backdrop for each frame  
-    context.fillStyle = "#201A23";  
-    context.fillRect(0, 0, 1220, 400); // x, y, width, height
+        // Creates the backdrop for each frame  
+        context.fillStyle = "#201A23";  
+        context.fillRect(0, 0, 1220, 400); // x, y, width, height
 
-    // Creates and fills the cube for each frame  
-    context.fillStyle = "#8DAA9D"; // hex for cube color 
-    context.beginPath();  
-    context.rect(player.x, player.y, player.width, player.height);  
-    context.fill();
+        // Creates and fills the cube for each frame  
+        context.fillStyle = "#8DAA9D"; // hex for cube color 
+        context.beginPath();  
+        context.rect(player.x, player.y, player.width, player.height);  
+        context.fill();
 
-    let triangleHeight = 200*Math.cos(Math.PI/6)
+        let triangleHeight = 200*Math.cos(Math.PI/6)
 
-    context.fillStyle = "fbf5f3"
-    for(let i=0; i<obstacleCoordinates.length; i++){
+        context.fillStyle = "fbf5f3"
+        for(let i=0; i<obstacleCoordinates.length; i++){
 
         let currentLocation = obstacleCoordinates[i]
 
