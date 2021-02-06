@@ -5,8 +5,6 @@ function loadGame() {
 
     let frameCount = 1
 
-    let obstacleCount = frameCount
-
     let obstacleCoordinates = []
 
     document.getElementById("score").innerHTML = 'Level: 0'
@@ -19,23 +17,35 @@ function loadGame() {
         }
         frameCount+=1
 
+        let increment = 1;
+        let whileLoopMaxIterations = 0;
         while(true){
             let objectCoord=Math.floor(Math.random()*(1165-140+1)+140)
     
            let isValidPosition = true
     
             for(let i=0; i<obstacleCoordinates.length; i++){
-                if((objectCoord<obstacleCoordinates[i]&&objectCoord-obstacleCoordinates[i]>-200)||
-                    (objectCoord>obstacleCoordinates[i]&&objectCoord-obstacleCoordinates[i]<200)
-                ){
+                if(objectCoord === obstacleCoordinates[i] ||
+                    (objectCoord<obstacleCoordinates[i]&&objectCoord-obstacleCoordinates[i]>-100)||
+                    (objectCoord>obstacleCoordinates[i]&&objectCoord-obstacleCoordinates[i]<100)){
                     isValidPosition=false
                 }
             }
+
             if(isValidPosition){
+                whileLoopMaxIterations = 0;
+                increment++;
                 obstacleCoordinates.push(objectCoord)
                 document.getElementById("score").innerHTML = `Level: ${obstacleCoordinates.length}`
                 break
             }
+
+            if (increment === 10 || whileLoopMaxIterations === 50000) {
+                window.location.href = "game_won.html";
+                break
+            }
+
+            whileLoopMaxIterations++;
         }
     }
 
