@@ -49,7 +49,7 @@ function loadGame() {
         }
     }
 
-    //defining the player
+    //defining the players
     let player = {
         height: 32,
         width: 32,
@@ -57,7 +57,25 @@ function loadGame() {
         x:0,
         y:0,
         velocityX:0,
-        velocityY:0
+        velocityY:0,
+        bullet:{
+            x:player.x,
+            y:player.y
+        }
+    }
+
+    let player2 = {
+        height: 32,
+        width: 32,
+        isJumping: false,
+        x:1220-32,
+        y:338,
+        velocityX:0,
+        velocityY:0,
+        bullet:{
+            x:player2.x,
+            y:player2.y
+        }
     }
 
     //controller logic
@@ -74,12 +92,35 @@ function loadGame() {
             }
 
             // left arrow detect
-            if(event.keyCode === 37) {
+            if(event.keyCode === 65) {
                 controller.left = keyState
-            }else if (event.keyCode === 38){
+            }else if (event.keyCode === 87){
                 controller.up = keyState
-            }else if(event.keyCode === 39){
+            }else if(event.keyCode === 68){
                 controller.right = keyState
+            }
+        }
+    }
+
+    let controller2 = {
+        left:false,
+        right:false,
+        up:false,
+        listener: function (event){
+            let keyState 
+            if(event.type === "keydown"){
+                keyState = true
+            }else{
+                keyState = false
+            }
+
+            // left arrow detect
+            if(event.keyCode === 37) {
+                controller2.left = keyState
+            }else if (event.keyCode === 38){
+                controller2.up = keyState
+            }else if(event.keyCode === 39){
+                controller2.right = keyState
             }
         }
     }
@@ -102,16 +143,44 @@ function loadGame() {
         player.velocityX*=0.9
         player.velocityY*=0.9
 
+        if(controller2.up&&!player2.isJumping){
+            player2.isJumping=true
+            player2.velocityY-=20
+        }
+        if(controller2.left){
+            player2.velocityX-=0.5
+        }
+        if(controller2.right){
+            player2.velocityX+=0.5
+        }
+
+        player2.velocityY+=1.5
+        player2.x+=player2.velocityX
+        player2.y+=player2.velocityY
+        player2.velocityX*=0.9
+        player2.velocityY*=0.9
+
+        console.log(player.y)
+        console.log(player2.y)
+
         if(player.y>338){
             player.isJumping=false
             player.y=338
             player.velocityY=0
         }
+
+        if(player2.y>338){
+            player2.isJumping=false
+            player2.y=338
+            player2.velocityY=0
+        }
+
         if(player.x<0){
             player.x=0
-        }else if(player.x>1220){
-            player.x=-20
-            nextFrame();
+        }else if(player.x>1220-32){
+            player.x=1220-32
+            // nextFrame();
+
         }
 
         // Creates the backdrop for each frame  
@@ -119,10 +188,18 @@ function loadGame() {
         context.fillRect(0, 0, 1220, 400); // x, y, width, height
 
         // Creates and fills the cube for each frame  
+        console.log(player)
+        console.log(player2)
+
         context.fillStyle = "#8DAA9D"; // hex for cube color 
         context.beginPath();  
         context.rect(player.x, player.y, player.width, player.height);  
         context.fill();
+
+        context.fillStyle = "red"; // hex for cube color 
+        context.beginPath();  
+        context.rect(player2.x, player2.y, player2.width, player2.height);  
+        context.fill();        
 
         let triangleHeight = 200*Math.cos(Math.PI/6)
 
@@ -169,6 +246,8 @@ function loadGame() {
 
     window.addEventListener("keydown", controller.listener)
     window.addEventListener("keyup", controller.listener)
+    window.addEventListener("keydown", controller2.listener)
+    window.addEventListener("keyup", controller2.listener)
     window.requestAnimationFrame(loop)
 
 }
